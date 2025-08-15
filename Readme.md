@@ -6,7 +6,7 @@
 
 ---
 
-## 🔎 Quick Reference – Azure → AWS → GCP
+## Quick Reference – Azure → AWS → GCP
 
 | Azure Service | AWS Equivalent | GCP Equivalent |
 |---|---|---|
@@ -29,7 +29,7 @@
 
 ---
 
-## 💰 Consolidated Pricing Overview
+## Consolidated Pricing Overview
 
 | Azure Service | Azure Pricing Model | AWS Pricing Model | GCP Pricing Model |
 |---|---|---|---|
@@ -258,7 +258,6 @@ High-throughput data streaming.
 # **Additional Azure Serverless Services**
 
 
-# Additional Azure Serverless Services
 
 ---
 
