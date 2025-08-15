@@ -1,214 +1,221 @@
 # CST8917 – Serverless Applications  
 ## Assignment 2 – Serverless Service Alternatives Report
-## Submitted By : Jaspreet Singh
-> **Objective**: Compare Azure serverless services with AWS and GCP equivalents in terms of features, triggers/bindings, integration options, monitoring, pricing, and architectural trade-offs.
+
+> **Objective**: Compare Azure serverless services with AWS and GCP equivalents in terms of features, triggers/bindings, integration options, monitoring, pricing, and architectural trade-offs.  
+> This report covers the **six core services required** by the assignment and **additional Azure serverless offerings** to show the broader ecosystem.
 
 ---
 
-## Quick Reference – Azure -- AWS --  GCP
+## 🔎 Quick Reference – Azure → AWS → GCP
 
 | Azure Service | AWS Equivalent | GCP Equivalent |
 |---|---|---|
 | Azure Functions | AWS Lambda | Cloud Functions |
 | Durable Functions | Step Functions | Workflows |
-| Azure Logic Apps | AWS Step Functions (Express) / EventBridge Pipes / AppFlow | Workflows / Cloud Composer (for orchestration) |
+| Azure Logic Apps | AWS Step Functions (Express) / EventBridge Pipes / AppFlow | Workflows / Cloud Composer |
 | Azure Service Bus | Amazon SQS (Queues) + SNS (Topics) | Pub/Sub |
 | Azure Event Grid | Amazon EventBridge | Eventarc |
 | Azure Event Hubs | Amazon Kinesis Data Streams | Pub/Sub Lite |
+| Azure Container Apps | AWS App Runner / Fargate | Cloud Run |
+| Azure API Management (Consumption) | Amazon API Gateway | API Gateway (GCP) |
+| Azure SignalR Service | API Gateway WebSocket + AppSync | WebSocket via API Gateway / Firebase Realtime Database |
+| Azure Cognitive Services | AWS AI Services (Rekognition, Polly, Comprehend, etc.) | Vertex AI APIs |
+| Azure Form Recognizer | Textract | Document AI |
+| Azure Batch | AWS Batch | Batch in GCP |
+| Azure Stream Analytics | Kinesis Data Analytics | Dataflow (Streaming) |
+| Azure SQL Database Serverless | Aurora Serverless | Cloud SQL Serverless |
+| Azure Blob Storage Event Triggers | S3 Event Notifications | Cloud Storage Event Notifications |
+| Azure Web PubSub | AppSync / API Gateway WebSocket | Firebase Realtime DB / Web PubSub on GCP Marketplace |
 
 ---
+
+## 💰 Consolidated Pricing Overview
+
+| Azure Service | Azure Pricing Model | AWS Pricing Model | GCP Pricing Model |
+|---|---|---|---|
+| Azure Functions | Per execution/GB-sec | Per execution/GB-sec | Per execution/GB-sec |
+| Durable Functions | Functions cost + storage | Per state transition | Per workflow step |
+| Azure Logic Apps | Per action/trigger | Per transition/event | Per workflow step |
+| Azure Service Bus | Per op/message | Per request | Per message |
+| Azure Event Grid | Per million ops | Per million events | Per million events |
+| Azure Event Hubs | TU/hour + egress | Shard-hour + data | Capacity-hour |
+| Azure Container Apps | vCPU/sec + memory/sec | vCPU/sec + memory/sec | vCPU/sec + memory/sec |
+| Azure API Management (Consumption) | Per call | Per million API calls | Per million API calls |
+| Azure SignalR Service | Per million messages | Per million messages | Per million messages |
+| Azure Cognitive Services | Per API call | Per API call | Per API call |
+| Azure Form Recognizer | Per page | Per page | Per page |
+| Azure Batch | Per vCPU-hour | Per vCPU-hour | Per vCPU-hour |
+| Azure Stream Analytics | SU/hour | Kinesis Analytics PU/hour | Dataflow vCPU/memory/time |
+| Azure SQL Database Serverless | vCore/sec + storage | ACU/sec + storage | vCPU/sec + storage |
+| Azure Blob Storage Event Triggers | Per operation | Per request | Per request |
+| Azure Web PubSub | Per million messages | Per million messages | Per million messages |
+
+---
+
+# **Core Assignment Services**
 
 ## 1. Azure Functions
 
 **Overview**  
-Event-driven compute service that runs code on demand without managing infrastructure. Supports many triggers/bindings to integrate with other Azure services.
+Event-driven compute that runs code without provisioning servers.
 
 **Core Features**  
-- Triggers: HTTP, Timer, Blob Storage, Queue Storage, Event Hub, Service Bus, Cosmos DB, Event Grid  
-- Bindings: Input/output bindings for storage, messaging, and databases  
-- Multiple languages: C#, Java, Python, JavaScript, PowerShell  
-- Consumption and Premium plans
+- Triggers: HTTP, Timer, Blob, Queue, Event Hub, Service Bus, Cosmos DB, Event Grid  
+- Bindings: Input/output for Azure services  
+- Languages: C#, Java, Python, Node.js, PowerShell  
 
 **Integration Options**  
-- Integrates with Azure DevOps and GitHub Actions for CI/CD  
-- Works with Event Grid, Event Hubs, Service Bus, Cosmos DB, Key Vault  
-- Can run locally with Azure Functions Core Tools
+- Azure DevOps/GitHub Actions  
+- Works with Service Bus, Event Grid, Event Hubs
 
 **Monitoring & Observability**  
-- Azure Application Insights integration for metrics, traces, and logs  
-- Built-in metrics in Azure Monitor  
-- Log streaming in portal
+- Application Insights  
+- Azure Monitor metrics/logs
 
 **Pricing Model**  
-- Consumption plan: Pay per execution, GB-seconds, and outbound data  
-- Premium plan: Reserved instances + execution costs
+- Per execution, GB-seconds, outbound data
 
 **Strengths & Weaknesses**  
-- Flexible triggers/bindings  
-- Multiple hosting plans  
-- Cold start latency in Consumption plan  
-- Vendor lock-in on bindings
+✅ Wide triggers/bindings  
+❌ Cold starts in Consumption plan
 
 **Comparison Table**
 
 | Feature | Azure Functions | AWS Lambda | GCP Cloud Functions |
 |---|---|---|---|
-| Language Support | Many incl. Python, C#, Node.js | Similar set, plus Go, Ruby | Node.js, Python, Go, Java, .NET, PHP |
-| Triggers | Broad Azure service support | Broad AWS service support | GCP event sources + HTTP |
+| Languages | C#, Java, Python, Node.js | + Go, Ruby | Node.js, Python, Go, Java |
+| Triggers | Broad Azure sources | Broad AWS sources | GCP events + HTTP |
 | Pricing | Per execution/GB-sec | Per execution/GB-sec | Per execution/GB-sec |
-| Cold Start | Present in Consumption plan | Present | Present |
 
 ---
 
 ## 2. Durable Functions
 
 **Overview**  
-Extension of Azure Functions for stateful orchestration with patterns like chaining, fan-out/fan-in, and human interaction.
+Stateful orchestrations on Azure Functions.
 
 **Core Features**  
-- Orchestration Functions (define workflows)  
-- Activity Functions (perform work)  
-- Entity Functions (manage state)  
-- Patterns: Function chaining, fan-out/fan-in, async HTTP APIs, human interaction
+- Orchestrator, Activity, Entity Functions  
+- Patterns: Chaining, fan-out/fan-in, async APIs
 
 **Integration Options**  
-- Works seamlessly with Azure Functions triggers/bindings  
-- Integrated with Azure Storage for state management  
-- Deploy via ARM/Bicep, Terraform, or CI/CD pipelines
+- Azure Storage for state  
+- Works with all Azure Function triggers
 
 **Monitoring & Observability**  
-- Application Insights telemetry for orchestration state and function executions  
-- Durable Task Framework history stored in Azure Storage
+- Application Insights  
+- Durable Task Framework history
 
 **Pricing Model**  
-- Same as Azure Functions + storage costs
+- Functions cost + storage
 
 **Strengths & Weaknesses**  
-- Built-in state management  
-- Familiar function model  
-- Azure-specific; no direct portability  
-- State stored in Azure Storage only
+✅ Simplifies stateful workflows  
+❌ Azure-only storage backend
 
 **Comparison Table**
 
-| Feature | Durable Functions | AWS Step Functions | GCP Workflows |
+| Feature | Durable Functions | Step Functions | Workflows |
 |---|---|---|---|
-| State Mgmt | Azure Storage | JSON-based state | YAML/JSON |
-| Patterns | Chaining, fan-out/fan-in | Same + parallel, map state | Same + error handling |
-| Pricing | Per execution + storage | Per state transition | Per execution step |
+| State | Azure Storage | JSON-based state | YAML/JSON |
+| Pricing | Per exec + storage | Per transition | Per step |
 
 ---
 
 ## 3. Azure Logic Apps
 
 **Overview**  
-Low-code/no-code integration and workflow automation platform.
+Low-code workflow automation.
 
 **Core Features**  
-- Designer-based workflows  
-- 400+ connectors (Office 365, Dynamics, SAP, Salesforce, SQL, Service Bus, etc.)  
-- Triggers: HTTP, Timer, Event Grid, Service Bus, Blob Storage, etc.  
-- Actions: Call APIs, manipulate data, send messages
+- 400+ connectors  
+- Triggers: HTTP, Event Grid, Service Bus  
+- Actions: API calls, data transforms
 
 **Integration Options**  
-- Deep integration with Azure Functions, Service Bus, Event Grid  
-- Can be invoked via HTTP from other apps  
-- CI/CD via ARM templates and Azure DevOps
+- Functions, Service Bus, Event Grid  
+- CI/CD with ARM, Azure DevOps
 
 **Monitoring & Observability**  
-- Run history in portal  
-- Azure Monitor integration  
-- Alerts on failed runs
+- Run history  
+- Azure Monitor alerts
 
 **Pricing Model**  
-- Consumption (per action/trigger)  
-- Standard (per workflow run capacity)
+- Consumption: per action/trigger  
+- Standard: per run capacity
 
 **Strengths & Weaknesses**  
-- Fast integration with SaaS/enterprise apps  
-- Visual designer reduces dev time  
-- Less control than code-first approach  
-- Complex logic can be harder to maintain visually
+✅ Quick SaaS integration  
+❌ Less flexible than code
 
 **Comparison Table**
 
-| Feature | Logic Apps | AWS Step Functions / EventBridge Pipes | GCP Workflows |
+| Feature | Logic Apps | Step Functions / EventBridge | Workflows |
 |---|---|---|---|
-| Model | Visual, low-code | JSON/YAML | YAML/JSON |
-| Connectors | 400+ | Fewer native, more custom | Limited |
-| Pricing | Per action | Per transition/event | Per step |
+| Model | Visual | JSON/YAML | YAML/JSON |
+| Connectors | 400+ | Fewer native | Limited |
+| Pricing | Per action | Per event/transition | Per step |
 
 ---
 
 ## 4. Azure Service Bus
 
 **Overview**  
-Enterprise messaging service supporting queues (point-to-point) and topics (publish/subscribe).
+Enterprise-grade messaging with queues and topics.
 
 **Core Features**  
-- Queues, topics, subscriptions  
-- FIFO and message sessions  
-- Dead-letter queues  
-- Scheduled messages
+- FIFO, sessions, DLQs  
+- AMQP 1.0
 
 **Integration Options**  
-- Works with Functions, Logic Apps, Event Grid  
-- Supports AMQP 1.0 standard
+- Functions, Logic Apps
 
 **Monitoring & Observability**  
-- Metrics in Azure Monitor  
-- Dead-letter queue inspection  
-- Service Bus Explorer
+- Azure Monitor metrics  
+- DLQ inspection
 
 **Pricing Model**  
-- Basic, Standard, Premium tiers (per operation, message size, brokered connection)
+- Per op/message
 
 **Strengths & Weaknesses**  
-- Rich enterprise features (sessions, transactions)  
-- Reliable delivery  
-- More complex than basic queues  
-- Premium tier cost
+✅ Rich features  
+❌ More complex than basic queues
 
 **Comparison Table**
 
-| Feature | Service Bus | AWS SQS + SNS | GCP Pub/Sub |
+| Feature | Service Bus | SQS + SNS | Pub/Sub |
 |---|---|---|---|
-| Model | Queues & Topics | SQS (queues), SNS (topics) | Topics/subscriptions |
+| Model | Queues, Topics | Queues, Topics | Topics/subs |
 | Ordering | Sessions | FIFO queues | Ordering keys |
-| Pricing | Per op/message | Per request | Per message |
+| Pricing | Per op | Per request | Per message |
 
 ---
 
 ## 5. Azure Event Grid
 
 **Overview**  
-Event routing service for building reactive applications.
+Event routing for reactive apps.
 
 **Core Features**  
-- Event sources: Blob Storage, Resource Groups, IoT Hub, etc.  
-- Event handlers: Functions, Logic Apps, WebHooks  
-- Advanced filtering, retries, and dead-letter destinations
+- Sources: Blob, Resource Group, IoT Hub  
+- Handlers: Functions, Logic Apps, WebHooks
 
 **Integration Options**  
-- Works with most Azure services and custom topics  
-- Integrates with Kubernetes Event Grid on AKS
+- Native Azure services, custom topics
 
 **Monitoring & Observability**  
-- Metrics in Azure Monitor  
-- Dead-letter destinations for undeliverable events
+- Metrics, dead-letter queues
 
 **Pricing Model**  
-- Per million operations
+- Per million ops
 
 **Strengths & Weaknesses**  
-- Low latency, high scalability  
-- Native integration across Azure  
-- Limited outside Azure unless using WebHooks  
-- Charges per event
+✅ Low latency  
+❌ Limited non-Azure triggers
 
 **Comparison Table**
 
-| Feature | Event Grid | AWS EventBridge | GCP Eventarc |
+| Feature | Event Grid | EventBridge | Eventarc |
 |---|---|---|---|
 | Delivery | Push | Push | Push |
 | Filters | Advanced | Advanced | Basic/Advanced |
@@ -219,37 +226,87 @@ Event routing service for building reactive applications.
 ## 6. Azure Event Hubs
 
 **Overview**  
-Big data streaming platform for telemetry ingestion.
+High-throughput data streaming.
 
 **Core Features**  
-- Partitioned consumer model  
-- Integrations: Functions, Stream Analytics, Databricks, Kafka endpoint  
-- High-throughput event ingestion
+- Partitions, consumer groups  
+- Kafka endpoint
 
 **Integration Options**  
-- Direct integration with Azure Functions (Event Hub trigger)  
-- Azure Data Explorer, Synapse, Databricks
+- Functions, Databricks, Synapse
 
 **Monitoring & Observability**  
-- Metrics in Azure Monitor  
-- Capture to Blob or Data Lake for auditing
+- Metrics in Monitor  
+- Capture to Blob/Data Lake
 
 **Pricing Model**  
-- Per throughput unit/hour + egress  
-- Dedicated clusters for high scale
+- TU/hour + egress
 
 **Strengths & Weaknesses**  
-- High throughput  
-- Kafka compatibility  
-- Requires planning partitions and throughput  
-- Pricing complexity
+✅ Scalable ingestion  
+❌ Partition planning needed
 
 **Comparison Table**
 
-| Feature | Event Hubs | AWS Kinesis | GCP Pub/Sub Lite |
+| Feature | Event Hubs | Kinesis | Pub/Sub Lite |
 |---|---|---|---|
 | Model | Partitions | Shards | Lite regions |
-| Retention | Configurable | Configurable | Configurable |
 | Pricing | TU/hour | Shard-hour | Capacity-hour |
+
+---
+
+# **Additional Azure Serverless Services**
+
+*(These extend the serverless ecosystem and show multi-cloud equivalents)*
+
+## Azure Container Apps  
+- AWS: App Runner / Fargate  
+- GCP: Cloud Run  
+- Run containerized apps serverlessly with event triggers.
+
+## Azure API Management (Consumption)  
+- AWS: API Gateway  
+- GCP: API Gateway  
+- Manage, secure, and expose APIs pay-per-call.
+
+## Azure SignalR Service  
+- AWS: API Gateway WebSockets / AppSync  
+- GCP: Firebase Realtime DB  
+- Real-time push messaging serverlessly.
+
+## Azure Cognitive Services  
+- AWS: AI Services  
+- GCP: Vertex AI APIs  
+- Prebuilt AI APIs, billed per call.
+
+## Azure Form Recognizer  
+- AWS: Textract  
+- GCP: Document AI  
+- OCR and form parsing serverlessly.
+
+## Azure Batch  
+- AWS: Batch  
+- GCP: Batch  
+- Large-scale job scheduling.
+
+## Azure Stream Analytics  
+- AWS: Kinesis Data Analytics  
+- GCP: Dataflow  
+- Real-time data processing.
+
+## Azure SQL Database Serverless  
+- AWS: Aurora Serverless  
+- GCP: Cloud SQL Serverless  
+- Pausable, auto-scaling database.
+
+## Azure Blob Storage Event Triggers  
+- AWS: S3 Events  
+- GCP: Cloud Storage Events  
+- Event-based serverless triggers.
+
+## Azure Web PubSub  
+- AWS: AppSync / API Gateway WebSockets  
+- GCP: Firebase Realtime DB  
+- PubSub for web real-time messaging.
 
 ---
