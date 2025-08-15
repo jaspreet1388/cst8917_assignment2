@@ -257,56 +257,349 @@ High-throughput data streaming.
 
 # **Additional Azure Serverless Services**
 
-*(These extend the serverless ecosystem and show multi-cloud equivalents)*
 
-## Azure Container Apps  
-- AWS: App Runner / Fargate  
-- GCP: Cloud Run  
-- Run containerized apps serverlessly with event triggers.
-
-## Azure API Management (Consumption)  
-- AWS: API Gateway  
-- GCP: API Gateway  
-- Manage, secure, and expose APIs pay-per-call.
-
-## Azure SignalR Service  
-- AWS: API Gateway WebSockets / AppSync  
-- GCP: Firebase Realtime DB  
-- Real-time push messaging serverlessly.
-
-## Azure Cognitive Services  
-- AWS: AI Services  
-- GCP: Vertex AI APIs  
-- Prebuilt AI APIs, billed per call.
-
-## Azure Form Recognizer  
-- AWS: Textract  
-- GCP: Document AI  
-- OCR and form parsing serverlessly.
-
-## Azure Batch  
-- AWS: Batch  
-- GCP: Batch  
-- Large-scale job scheduling.
-
-## Azure Stream Analytics  
-- AWS: Kinesis Data Analytics  
-- GCP: Dataflow  
-- Real-time data processing.
-
-## Azure SQL Database Serverless  
-- AWS: Aurora Serverless  
-- GCP: Cloud SQL Serverless  
-- Pausable, auto-scaling database.
-
-## Azure Blob Storage Event Triggers  
-- AWS: S3 Events  
-- GCP: Cloud Storage Events  
-- Event-based serverless triggers.
-
-## Azure Web PubSub  
-- AWS: AppSync / API Gateway WebSockets  
-- GCP: Firebase Realtime DB  
-- PubSub for web real-time messaging.
+# Additional Azure Serverless Services
 
 ---
+
+## 7. Azure Container Apps
+
+**Overview**  
+Runs containerized applications serverlessly with automatic scaling, event-driven execution, and no Kubernetes management.
+
+**Core Features**  
+- Deploy containers directly from registries  
+- Scale to zero on idle  
+- Supports HTTP, gRPC, Dapr sidecars  
+- Event triggers from Service Bus, Event Grid, Blob Storage
+
+**Integration Options**  
+- Azure Container Registry, GitHub Actions, Azure DevOps  
+- Works with Service Bus, Event Grid, Logic Apps
+
+**Monitoring & Observability**  
+- Azure Monitor metrics/logs  
+- Container logs in Log Analytics
+
+**Pricing Model**  
+- Pay per vCPU-second and GiB-second
+
+**Strengths & Weaknesses**  
+✅ Flexible runtimes via containers  
+✅ Event-driven scaling  
+❌ More expensive for constant workloads  
+❌ Cold starts on scale-to-zero
+
+**Comparison Table**
+
+| Feature | Azure Container Apps | AWS App Runner / Fargate | GCP Cloud Run |
+|---|---|---|---|
+| Runtime | Any container | Any container | Any container |
+| Scaling | To zero | To zero | To zero |
+| Pricing | vCPU/mem-sec | vCPU/mem-sec | vCPU/mem-sec |
+
+---
+
+## 8. Azure API Management (Consumption Tier)
+
+**Overview**  
+API gateway in a serverless consumption tier with per-call billing.
+
+**Core Features**  
+- Secure, publish, and monitor APIs  
+- Rate limiting, quotas, authentication  
+- Transformations and caching
+
+**Integration Options**  
+- Functions, Logic Apps, Container Apps  
+- CI/CD with ARM/Bicep, DevOps, GitHub Actions
+
+**Monitoring & Observability**  
+- Azure Monitor, API analytics dashboard
+
+**Pricing Model**  
+- Pay per API call
+
+**Strengths & Weaknesses**  
+✅ Global API gateway  
+✅ Built-in security and analytics  
+❌ Per-call cost can grow for high-volume APIs
+
+**Comparison Table**
+
+| Feature | Azure API Mgmt (Consumption) | AWS API Gateway | GCP API Gateway |
+|---|---|---|---|
+| Billing | Per call | Per million calls | Per million calls |
+| Auth | OAuth2, JWT | OAuth2, JWT | OAuth2, JWT |
+| Transforms | Yes | Yes | Limited |
+
+---
+
+## 9. Azure SignalR Service (Serverless Tier)
+
+**Overview**  
+Managed real-time messaging service for WebSockets and push updates.
+
+**Core Features**  
+- Publish/subscribe messaging  
+- Serverless tier integrates with Functions  
+- Multiple protocols: WebSockets, Server-Sent Events
+
+**Integration Options**  
+- Functions triggers/bindings  
+- Web apps, mobile apps
+
+**Monitoring & Observability**  
+- Azure Monitor metrics for connections, messages
+
+**Pricing Model**  
+- Per million messages
+
+**Strengths & Weaknesses**  
+✅ Scales real-time messaging easily  
+❌ Not suitable for heavy compute
+
+**Comparison Table**
+
+| Feature | Azure SignalR | AWS API Gateway WebSocket / AppSync | GCP Firebase Realtime DB |
+|---|---|---|---|
+| Protocol | WebSockets, SSE | WebSockets, GraphQL | WebSockets |
+| Billing | Per message | Per message | Per GB transfer |
+| Integration | Functions | Lambda | Cloud Functions |
+
+---
+
+## 10. Azure Cognitive Services
+
+**Overview**  
+Pre-built AI APIs for vision, speech, language, and decision-making.
+
+**Core Features**  
+- Computer Vision, Text Analytics, Speech-to-Text, Translation  
+- REST API-based  
+- No model training needed
+
+**Integration Options**  
+- Functions, Logic Apps, Web Apps  
+- CI/CD with API keys in Key Vault
+
+**Monitoring & Observability**  
+- Azure Monitor for API metrics
+
+**Pricing Model**  
+- Per API call
+
+**Strengths & Weaknesses**  
+✅ Fast AI integration  
+❌ Cost scales with usage
+
+**Comparison Table**
+
+| Feature | Azure Cognitive Services | AWS AI Services | GCP Vertex AI APIs |
+|---|---|---|---|
+| Model Mgmt | Fully managed | Fully managed | Fully managed |
+| Billing | Per call | Per call | Per call |
+| Custom Models | Limited | Limited | Limited |
+
+---
+
+## 11. Azure Form Recognizer
+
+**Overview**  
+AI-powered OCR and form data extraction.
+
+**Core Features**  
+- Prebuilt models for invoices, receipts  
+- Custom form training  
+- PDF/image support
+
+**Integration Options**  
+- Functions for event-driven OCR  
+- Blob triggers for document ingestion
+
+**Monitoring & Observability**  
+- Azure Monitor metrics
+
+**Pricing Model**  
+- Per page processed
+
+**Strengths & Weaknesses**  
+✅ High accuracy  
+❌ Pricing for large volumes
+
+**Comparison Table**
+
+| Feature | Azure Form Recognizer | AWS Textract | GCP Document AI |
+|---|---|---|---|
+| Input | PDF, images | PDF, images | PDF, images |
+| Billing | Per page | Per page | Per page |
+| Training | Yes | No | Yes |
+
+---
+
+## 12. Azure Batch
+
+**Overview**  
+Serverless job scheduling for large-scale compute tasks.
+
+**Core Features**  
+- Parallel task execution  
+- Auto-scaling compute pools  
+- Supports Docker containers
+
+**Integration Options**  
+- Blob storage for input/output  
+- Functions or Logic Apps to trigger jobs
+
+**Monitoring & Observability**  
+- Azure Monitor job metrics  
+- Logging via Storage
+
+**Pricing Model**  
+- Per vCPU-hour
+
+**Strengths & Weaknesses**  
+✅ Handles large jobs easily  
+❌ Longer startup time
+
+**Comparison Table**
+
+| Feature | Azure Batch | AWS Batch | GCP Batch |
+|---|---|---|---|
+| Compute | VM/Container | VM/Container | VM/Container |
+| Scaling | Auto | Auto | Auto |
+| Pricing | vCPU-hour | vCPU-hour | vCPU-hour |
+
+---
+
+## 13. Azure Stream Analytics
+
+**Overview**  
+Serverless stream processing engine.
+
+**Core Features**  
+- SQL-like queries over event streams  
+- Input from Event Hubs, IoT Hub, Blob  
+- Output to Power BI, Blob, SQL DB
+
+**Integration Options**  
+- Event-driven pipelines with Event Hubs, Functions
+
+**Monitoring & Observability**  
+- Job metrics in Azure Monitor
+
+**Pricing Model**  
+- Streaming Unit (SU) per hour
+
+**Strengths & Weaknesses**  
+✅ Simple streaming queries  
+❌ Limited compared to Apache Flink
+
+**Comparison Table**
+
+| Feature | Azure Stream Analytics | AWS Kinesis Analytics | GCP Dataflow |
+|---|---|---|---|
+| Language | SQL | SQL | Java, Python, SQL |
+| Billing | SU/hour | PU/hour | vCPU/mem/hr |
+| Integrations | Azure native | AWS native | GCP native |
+
+---
+
+## 14. Azure SQL Database (Serverless Tier)
+
+**Overview**  
+Auto-pausing SQL database with per-second billing.
+
+**Core Features**  
+- Auto-scale compute  
+- Pause when idle  
+- Built-in backups
+
+**Integration Options**  
+- Works with Functions, Logic Apps  
+- CI/CD with ARM templates
+
+**Monitoring & Observability**  
+- Query performance insights  
+- Azure Monitor metrics
+
+**Pricing Model**  
+- vCore-second + storage
+
+**Strengths & Weaknesses**  
+✅ Cost savings for intermittent workloads  
+❌ Cold start on resume
+
+**Comparison Table**
+
+| Feature | Azure SQL Serverless | AWS Aurora Serverless | GCP Cloud SQL Serverless |
+|---|---|---|---|
+| Scaling | Auto | Auto | Auto |
+| Billing | vCore-sec | ACU-sec | vCPU-sec |
+| Pause | Yes | Yes | Yes |
+
+---
+
+## 15. Azure Blob Storage Event Triggers
+
+**Overview**  
+Event-driven triggers for blob changes via Event Grid.
+
+**Core Features**  
+- Create, update, delete events  
+- Native Event Grid integration
+
+**Integration Options**  
+- Functions, Logic Apps, Event Hubs
+
+**Monitoring & Observability**  
+- Azure Monitor events
+
+**Pricing Model**  
+- Per operation
+
+**Strengths & Weaknesses**  
+✅ Simple file-based workflows  
+❌ Requires Event Grid for push
+
+**Comparison Table**
+
+| Feature | Blob Event Triggers | S3 Event Notifications | GCP Storage Event Notifications |
+|---|---|---|---|
+| Trigger | Create/update/delete | Same | Same |
+| Billing | Per op | Per op | Per op |
+| Push | Event Grid | SQS/Lambda | Pub/Sub |
+
+---
+
+## 16. Azure Web PubSub
+
+**Overview**  
+Real-time publish/subscribe for web and mobile clients.
+
+**Core Features**  
+- WebSocket-based pub/sub  
+- Serverless tier with Functions integration  
+- Scales automatically
+
+**Integration Options**  
+- Functions, Logic Apps  
+- Supports cloud-to-client messaging
+
+**Monitoring & Observability**  
+- Connection/message metrics
+
+**Pricing Model**  
+- Per million messages
+
+**Strengths & Weaknesses**  
+✅ Easy real-time apps  
+❌ Latency in some regions
+
+**Comparison Table**
+
+| Feature | Azure Web PubSub | AWS AppSync / API Gateway WebSocket | GCP Firebase Realtime DB |
+|---|---|---|---|
+| Protocol | WebSocket | WebSocket, GraphQL | WebSocket |
+| Billing | Per message | Per message | Per GB transfer |
+| Integration | Functions | Lambda | Cloud Functions |
