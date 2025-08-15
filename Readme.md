@@ -1,5 +1,6 @@
 # CST8917 – Serverless Applications  
 ## Assignment 2 – Serverless Service Alternatives Report
+## Submitted By: Jaspreet Singh
 
 > **Objective**: Compare Azure serverless services with AWS and GCP equivalents in terms of features, triggers/bindings, integration options, monitoring, pricing, and architectural trade-offs.  
 > This report covers the **six core services required** by the assignment and **additional Azure serverless offerings** to show the broader ecosystem.
