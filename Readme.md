@@ -603,3 +603,6 @@ Real-time publish/subscribe for web and mobile clients.
 | Protocol | WebSocket | WebSocket, GraphQL | WebSocket |
 | Billing | Per message | Per message | Per GB transfer |
 | Integration | Functions | Lambda | Cloud Functions |
+---
+
+In conclusion, the comparative study of Azure, AWS, and GCP serverless offerings highlights that all three cloud providers deliver highly capable solutions for building scalable, event-driven applications without the operational overhead of managing infrastructure. Azure stands out for its seamless integration with the broader Microsoft ecosystem, making it ideal for enterprises already leveraging Azure services. AWS provides the most mature and diverse set of event-driven and messaging services, while GCP excels in developer-friendly tooling and data analytics integration. By understanding these equivalencies, organizations can design resilient, portable, and cost-efficient serverless architectures, enabling flexibility to adopt single- or multi-cloud strategies that align with performance, integration, and compliance needs.
